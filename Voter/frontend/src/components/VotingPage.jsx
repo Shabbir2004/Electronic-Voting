@@ -38,8 +38,8 @@ const VotingPage = () => {
         }
       );
 
-      alert(response.data.message);
-      navigate("/result"); // Optional: redirect to results page
+      alert("Vote submitted successfully!");
+      navigate("/"); // Redirect to CAInterface
     } catch (error) {
       console.error("Voting error:", error);
       alert(error.response?.data?.error || "Voting failed");
@@ -47,33 +47,52 @@ const VotingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-xl shadow-lg w-96">
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-indigo-100 to-blue-100 flex items-center justify-center p-4">
+      <div className="bg-white p-8 rounded-2xl shadow-2xl w-full max-w-lg">
+        <h2 className="text-3xl font-extrabold text-center mb-8 text-indigo-700">
           Cast Your Vote
         </h2>
-        <div className="space-y-4">
+        <div className="space-y-6">
           {candidates.map((candidate) => (
             <div
               key={candidate.id}
-              className={`p-4 border rounded-md cursor-pointer ${
+              className={`p-6 border-2 rounded-xl cursor-pointer shadow-sm transition-transform transform ${
                 selectedCandidate?.id === candidate.id
-                  ? "bg-blue-100 border-blue-500"
-                  : "hover:bg-gray-50"
+                  ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white border-transparent scale-105"
+                  : "bg-gray-50 border-gray-300 hover:scale-105 hover:shadow-lg"
               }`}
               onClick={() => setSelectedCandidate(candidate)}
             >
-              <h3 className="font-semibold">{candidate.name}</h3>
-              <p className="text-sm text-gray-600">{candidate.party}</p>
+              <h3
+                className={`text-lg font-bold ${
+                  selectedCandidate?.id === candidate.id
+                    ? "text-white"
+                    : "text-gray-800"
+                }`}
+              >
+                {candidate.name}
+              </h3>
+              <p
+                className={`text-sm ${
+                  selectedCandidate?.id === candidate.id
+                    ? "text-white/80"
+                    : "text-gray-600"
+                }`}
+              >
+                {candidate.party}
+              </p>
             </div>
           ))}
           <button
             onClick={handleVote}
-            className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition duration-300"
+            className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-xl hover:opacity-90 transition-opacity duration-300 flex items-center justify-center gap-2 disabled:opacity-50"
             disabled={!selectedCandidate}
           >
-            Cast Vote
+            {selectedCandidate ? "Submit Your Vote" : "Select a Candidate"}
           </button>
+        </div>
+        <div className="text-center mt-6 text-gray-500 text-sm">
+          Your vote is confidential and securely recorded.
         </div>
       </div>
     </div>
