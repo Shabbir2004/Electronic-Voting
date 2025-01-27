@@ -1,8 +1,19 @@
 import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import mkcert from "vite-plugin-mkcert";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), mkcert()],
+  server: {
+    https: true, // Enables HTTPS
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000", // Backend server
+        changeOrigin: true,
+        secure: false, // Set to true if your backend uses a trusted certificate
+      },
+    },
+  },
 });
