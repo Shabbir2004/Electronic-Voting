@@ -18,10 +18,11 @@ const CAInterface = () => {
         pin,
       });
 
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("userCertificate", JSON.stringify(response.data));
+      localStorage.setItem("UserEmail", email);
 
-      navigate("/voting");
+      navigate("/voting") , {
+        
+      };
     } catch (error) {
       console.error("Certificate generation error:", error);
       alert(
